@@ -36,17 +36,27 @@ function onImageClick(event) {
     return;
   }
 
-  const modal = basicLightbox.create(`
+  const modal = basicLightbox.create(
+    `
     <img src="${event.target.dataset.source}" width="800" height="600">
-`);
+`,
+    {
+      onShow: (modal) => {
+        galeryRef.addEventListener("keydown", onEscape);
+      },
+      onClose: (modal) => {
+        galeryRef.removeEventListener("keydown", onEscape);
+      },
+    }
+  );
 
   modal.show();
 
-  galeryRef.addEventListener("keydown", (event) => {
+  function onEscape(event) {
     if (event.code === "Escape") {
       modal.close();
     }
-  });
+  }
 }
 
 // + 3. Підключення скрипту і стилів бібліотеки модального вікна basicLightbox.
