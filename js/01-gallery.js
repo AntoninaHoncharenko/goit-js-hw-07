@@ -31,11 +31,22 @@ galeryRef.addEventListener("click", onImageClick);
 
 function onImageClick(event) {
   event.preventDefault();
+
+  if (event.target.nodeName !== "IMG") {
+    return;
+  }
+
   const modal = basicLightbox.create(`
     <img src="${event.target.dataset.source}" width="800" height="600">
 `);
 
   modal.show();
+
+  galeryRef.addEventListener("keydown", (event) => {
+    if (event.code === "Escape") {
+      modal.close();
+    }
+  });
 }
 
 // + 3. Підключення скрипту і стилів бібліотеки модального вікна basicLightbox.
@@ -45,3 +56,7 @@ function onImageClick(event) {
 
 // + 5. Заміна значення атрибута src елемента <img> в модальному вікні перед відкриттям.
 // Використовуй готову розмітку модального вікна із зображенням з прикладів бібліотеки basicLightbox.
+
+// + 6. Додай закриття модального вікна після натискання клавіші Escape.
+// Зроби так, щоб прослуховування клавіатури було тільки доти, доки відкрите модальне вікно.
+// Бібліотекаи basicLightbox містить метод для програмного закриття модального вікна.
